@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "ava"
+    "test": "ava --serial"
   },
   "author": "Fabian Frank",
   "license": "ISC",

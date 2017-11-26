@@ -1,10 +1,9 @@
 import test from 'ava';
 
 var fs = require('fs')
-var builder = require('./src/template-builder')
-var helper = require('./_helper')
+var builder = require('../../src/template-builder')
 
-test.after(helper.clean)
+//test.after(helper.clean)
 
 test('#containsEnv indicates content requesting env', t => {
     let contentWith = `
@@ -26,24 +25,3 @@ test('#getNewFileName returns correct filename', t => {
   t.is(builder.getNewFileName('hello/world/.test#buildout'), 'hello/world/test')
 });
 
-test.cb('#buildOut builds files correctly', t => {
-  helper.createTestFiles();
-
-  console.log(helper.CONFIG_CONTENT_JSON)
-
-  var fn = builder.buildOut(helper.CONFIG_CONTENT_JSON, helper.TEST_FILE_1_CONTENT, helper.TEST_FILE_1_PATH, 'production');
-  fn(() => {
-    var content = fs.readFileSync(helper.TEST_FILE_1_PATH_BUILT_PRODUCTION, 'utf8')
-    t.is(content, `
-  Hello production.
-  What do you want to do with hello.
-`)
-    t.end()
-  });
-});
-
-test('bar', async t => {
-    const bar = Promise.resolve('bar');
-
-      t.is(await bar, 'bar');
-});
