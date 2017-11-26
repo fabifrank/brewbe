@@ -60,15 +60,17 @@ exports.buildOut = buildOut;
  * @param config
  * @returns {undefined}
  */
-function wrapFile(filename, config) {
+function wrapFile(filename, config, fileCallback) {
   return function(callback) {
     var buildFns = []
     fs.readFile(filename, 'utf-8', function(err, content) {
       if (containsEnv(content)) {
         buildFns = config.environments.map(function(env) {
+          if (fileCallback) fileCallback(filename, env)
           return buildOut(config, content, filename, env)
         })
       } else {
+        if (fileCallback) fileCallback(filename)
         buildFns.push(buildOut(config, content, filename, null))
       }
       nosync.parallel(buildFns, callback)

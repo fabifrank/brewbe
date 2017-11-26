@@ -36,6 +36,19 @@ test.cb('#wrapFile does correctly buildout different envs', t => {
   });
 });
 
+test.cb('#wrapFile does correctly call the fileCallback on each file', t => {
+  var files = [];
+  var fn = builder.wrapFile(helper.TEST_FILE_1_PATH, helper.CONFIG_CONTENT_JSON, (filename, env) => {
+    files.push([filename, env]);
+  })(() => {
+    t.deepEqual(files, [
+      ['test_dir/.testfile1#buildout', 'dev'],
+      ['test_dir/.testfile1#buildout', 'staging']
+    ]);
+    t.end();
+  });
+});
+
 test.cb('#runConfig does correctly buildout files different envs', t => {
   var fn = builder.runConfig(helper.CONFIG_CONTENT_JSON).then(() => {
     var contentDev = fs.readFileSync(helper.TEST_FILE_1_PATH_BUILT_DEV, 'utf8')
