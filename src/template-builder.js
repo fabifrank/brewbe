@@ -9,6 +9,7 @@ function containsEnv(content) {
   }
   return true
 }
+exports.containsEnv = containsEnv;
 
 function getNewFileName(filename, env) {
   var newFile = filename.replace(/\.(.*)#buildout/, '$1')
@@ -17,6 +18,7 @@ function getNewFileName(filename, env) {
   }
   return newFile
 }
+exports.getNewFileName = getNewFileName;
 
 function buildOut(config, content, filename, env) {
   var _config = JSON.parse(JSON.stringify(config))
@@ -33,6 +35,7 @@ function buildOut(config, content, filename, env) {
     })
   }
 }
+exports.buildOut = buildOut;
 
 function wrapFile(filename, config) {
   return function(callback) {
@@ -49,8 +52,9 @@ function wrapFile(filename, config) {
     })
   }
 }
+exports.wrapFile = wrapFile;
 
-module.exports = function(config) {
+function runConfig(config) {
   glob('**/.*#buildout/*', function(err, files) {
     var fnWraps = files.map(function(file) {
       return wrapFile(file, config)
@@ -59,3 +63,4 @@ module.exports = function(config) {
     console.log(files)
   });
 }
+exports.runConfig = runConfig;
