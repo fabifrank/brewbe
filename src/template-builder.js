@@ -1,3 +1,4 @@
+"use strict";
 var glob = require('glob')
 var nosync = require('async')
 var handlebars = require('handlebars')
@@ -26,6 +27,26 @@ function getNewFileName(filename, env) {
   return newFile
 }
 exports.getNewFileName = getNewFileName;
+
+
+/**
+ * cleanOut will remove the file
+ *
+ * @param filename
+ * @param env
+ * @returns {undefined}
+ */
+function cleanOut(filename, env) {
+  return function(callback) {
+    let file = getNewFileName(filename, env);
+    try {
+      fs.statSync(file);
+      fs.unlinkSync(file);
+    } catch(e) {}
+    return callback();
+  }
+}
+exports.cleanOut = cleanOut;
 
 /**
  * buildOut to fill file at location with content
@@ -60,18 +81,20 @@ exports.buildOut = buildOut;
  * @param config
  * @returns {undefined}
  */
-function wrapFile(filename, config, fileCallback) {
+function wrapFile(filename, config, cleanOnly, fileCallback) {
   return function(callback) {
     var buildFns = []
     fs.readFile(filename, 'utf-8', function(err, content) {
       if (containsEnv(content)) {
         buildFns = config.environments.map(function(env) {
           if (fileCallback) fileCallback(filename, env)
-          return buildOut(config, content, filename, env)
+          if (cleanOnly) return cleanOut(filename, env);
+          return buildOut(config, content, filename, env);
         })
       } else {
         if (fileCallback) fileCallback(filename)
-        buildFns.push(buildOut(config, content, filename, null))
+        if (cleanOnly) buildFns.push(cleanOut(filename, env));
+        else buildFns.push(buildOut(config, content, filename, null))
       }
       nosync.parallel(buildFns, callback)
     })
@@ -85,14 +108,18 @@ exports.wrapFile = wrapFile;
  * @param config
  * @returns {undefined}
  */
-function runConfig(config) {
+function runConfig(config, cleanOnly) {
   return new Promise((resolve, reject) => {
     glob('**/.*#buildout', function(err, files) {
       var fnWraps = files.map(function(file) {
-        return wrapFile(file, config)
+        return wrapFile(file, config, cleanOnly)
       })
       nosync.parallelLimit(fnWraps, 5, resolve)
     });
   });
 }
 exports.runConfig = runConfig;
+
+function clean() {
+
+}
