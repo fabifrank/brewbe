@@ -55,12 +55,14 @@ function wrapFile(filename, config) {
 exports.wrapFile = wrapFile;
 
 function runConfig(config) {
-  glob('**/.*#buildout/*', function(err, files) {
-    var fnWraps = files.map(function(file) {
-      return wrapFile(file, config)
-    })
-    nosync.parallelLimit(fnWraps, 5)
-    console.log(files)
+  return new Promise((resolve, reject) => {
+    glob('**/.*#buildout', function(err, files) {
+      var fnWraps = files.map(function(file) {
+        return wrapFile(file, config)
+      })
+      nosync.parallelLimit(fnWraps, 5, resolve)
+      console.log(files)
+    });
   });
 }
 exports.runConfig = runConfig;
