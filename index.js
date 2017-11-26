@@ -9,7 +9,7 @@ var program = require('commander');
 program
 .arguments('buildout')
 .action(function(file) {
-  var templateBuilder = require('./template-builder.js')
+  var templateBuilder = require('./src/template-builder.js')
   templateBuilder.runConfig(config)
 })
 .parse(process.argv);
