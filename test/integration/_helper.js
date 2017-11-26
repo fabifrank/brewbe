@@ -7,16 +7,12 @@ const DIR_NAME = 'test_dir';
 
 const TEST_FILE_1_PATH = DIR_NAME + '/.testfile1#buildout';
 exports.TEST_FILE_1_PATH = TEST_FILE_1_PATH;
-
 const TEST_FILE_1_PATH_BUILT = DIR_NAME + '/testfile1';
 exports.TEST_FILE_1_PATH_BUILT = TEST_FILE_1_PATH_BUILT;
-
 const TEST_FILE_1_PATH_BUILT_DEV = DIR_NAME + '/testfile1#dev';
 exports.TEST_FILE_1_PATH_BUILT_DEV = TEST_FILE_1_PATH_BUILT_DEV;
-
 const TEST_FILE_1_PATH_BUILT_STAGING = DIR_NAME + '/testfile1#staging';
 exports.TEST_FILE_1_PATH_BUILT_STAGING = TEST_FILE_1_PATH_BUILT_STAGING;
-
 const TEST_FILE_1_PATH_BUILT_PRODUCTION = DIR_NAME + '/testfile1#production';
 exports.TEST_FILE_1_PATH_BUILT_PRODUCTION = TEST_FILE_1_PATH_BUILT_PRODUCTION;
 
@@ -35,7 +31,7 @@ environments[] = staging
 attribute1 = hello
 `;
 exports.CONFIG_CONTENT_INI = CONFIG_CONTENT_INI;
-exports.CONFIG_CONTENT_JSON = ini.parse(CONFIG_CONTENT_INI, 'utf8')
+exports.CONFIG_CONTENT_JSON = ini.parse(CONFIG_CONTENT_INI, 'utf8');
 
 function createTestDir() {
   fs.mkdirSync(DIR_NAME);
@@ -46,17 +42,18 @@ function clean() {
 }
 exports.clean = clean;
 
-function createTestFile1() {
-  fs.writeFile(TEST_FILE_1_PATH, TEST_FILE_1_CONTENT, 'utf8')
+
+function createTestFiles() {
+  fs.writeFileSync(TEST_FILE_1_PATH, TEST_FILE_1_CONTENT, 'utf8');
 }
 
 function createConfig() {
-  fs.writeFile(CONFIG_PATH, CONFIG_CONTENT_INI, 'utf8')
+  fs.writeFile(CONFIG_PATH, CONFIG_CONTENT_INI, 'utf8');
 }
 
-exports.createTestFiles = function() {
+exports.buildTestDirectories = function() {
   clean();
   createTestDir();
   createConfig();
-  createTestFile1();
+  createTestFiles();
 }

@@ -11,6 +11,13 @@ function containsEnv(content) {
 }
 exports.containsEnv = containsEnv;
 
+/**
+ * getNewFileName to return target filename
+ *
+ * @param filename
+ * @param env
+ * @returns {undefined}
+ */
 function getNewFileName(filename, env) {
   var newFile = filename.replace(/\.(.*)#buildout/, '$1')
   if (env) {
@@ -20,6 +27,15 @@ function getNewFileName(filename, env) {
 }
 exports.getNewFileName = getNewFileName;
 
+/**
+ * buildOut to fill file at location with content
+ *
+ * @param config
+ * @param content
+ * @param filename
+ * @param env
+ * @returns {undefined}
+ */
 function buildOut(config, content, filename, env) {
   var _config = JSON.parse(JSON.stringify(config))
   return function(callback) {
@@ -37,6 +53,13 @@ function buildOut(config, content, filename, env) {
 }
 exports.buildOut = buildOut;
 
+/**
+ * wrapFile to parse files in respect to {{env}} tags and fill content
+ *
+ * @param filename
+ * @param config
+ * @returns {undefined}
+ */
 function wrapFile(filename, config) {
   return function(callback) {
     var buildFns = []
@@ -54,6 +77,12 @@ function wrapFile(filename, config) {
 }
 exports.wrapFile = wrapFile;
 
+/**
+ * runConfig to search for files matching certain pattern which should be built out
+ *
+ * @param config
+ * @returns {undefined}
+ */
 function runConfig(config) {
   return new Promise((resolve, reject) => {
     glob('**/.*#buildout', function(err, files) {
@@ -61,7 +90,6 @@ function runConfig(config) {
         return wrapFile(file, config)
       })
       nosync.parallelLimit(fnWraps, 5, resolve)
-      console.log(files)
     });
   });
 }

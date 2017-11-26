@@ -4,7 +4,7 @@ var fs = require('fs')
 var builder = require('../../src/template-builder')
 var helper = require('./_helper')
 
-test.beforeEach(() => helper.createTestFiles())
+test.beforeEach(() => helper.buildTestDirectories())
 //test.after(() => helper.clean())
 
 test.cb('#buildOut builds files correctly', t => {
@@ -36,10 +36,8 @@ test.cb('#wrapFile does correctly buildout different envs', t => {
   });
 });
 
-test.cb('#runConfig does correctly buildout different envs', t => {
-  console.log(helper.CONFIG_CONTENT_JSON)
+test.cb('#runConfig does correctly buildout files different envs', t => {
   var fn = builder.runConfig(helper.CONFIG_CONTENT_JSON).then(() => {
-    console.log("TEST32232")
     var contentDev = fs.readFileSync(helper.TEST_FILE_1_PATH_BUILT_DEV, 'utf8')
     t.is(contentDev, `
   Hello dev.
