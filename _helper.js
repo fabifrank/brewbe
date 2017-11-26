@@ -22,11 +22,11 @@ exports.TEST_FILE_1_CONTENT = TEST_FILE_1_CONTENT;
 
 const CONFIG_PATH = DIR_NAME + '/buildout.cfg'
 const CONFIG_CONTENT_INI = `
-    environments[] = dev
-    environments[] = staging
+environments[] = dev
+environments[] = staging
 
-    [collection1]
-    attribute1 = hello
+[collection1]
+attribute1 = hello
 `;
 exports.CONFIG_CONTENT_INI = CONFIG_CONTENT_INI;
 exports.CONFIG_CONTENT_JSON = ini.parse(CONFIG_CONTENT_INI, 'utf8')

@@ -4,7 +4,7 @@ var fs = require('fs')
 var builder = require('./src/template-builder')
 var helper = require('./_helper')
 
-test.afterEach(helper.clean)
+test.after(helper.clean)
 
 test('#containsEnv indicates content requesting env', t => {
     let contentWith = `
@@ -29,11 +29,15 @@ test('#getNewFileName returns correct filename', t => {
 test.cb('#buildOut builds files correctly', t => {
   helper.createTestFiles();
 
+  console.log(helper.CONFIG_CONTENT_JSON)
+
   var fn = builder.buildOut(helper.CONFIG_CONTENT_JSON, helper.TEST_FILE_1_CONTENT, helper.TEST_FILE_1_PATH, 'production');
   fn(() => {
-    console.log("TEST")
     var content = fs.readFileSync(helper.TEST_FILE_1_PATH_BUILT_PRODUCTION, 'utf8')
-    t.is(content, 'test')
+    t.is(content, `
+  Hello production.
+  What do you want to do with hello.
+`)
     t.end()
   });
 });
