@@ -110,7 +110,7 @@ exports.wrapFile = wrapFile;
  */
 function runConfig(config, cleanOnly) {
   return new Promise((resolve, reject) => {
-    glob(__dirname + '/**/.*#buildout', function(err, files) {
+    glob(process.cwd()  + '/**/.*#buildout', function(err, files) {
       var fnWraps = files.map(function(file) {
         return wrapFile(file, config, cleanOnly)
       })

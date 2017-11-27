@@ -5,7 +5,7 @@ var builder = require('../../src/template-builder')
 var utils = require('../_utils')
 
 test.beforeEach(() => utils.buildTestDirectories())
-test.after(() => utils.clean())
+test.afterEach(() => utils.clean())
 
 test.cb('#buildOut builds files correctly', t => {
   var fn = builder.buildOut(utils.CONFIG_CONTENT_JSON, utils.TEST_FILE_1_CONTENT, utils.TEST_FILE_1_PATH, 'production');
@@ -50,7 +50,9 @@ test.cb('#wrapFile does correctly call the fileCallback on each file', t => {
 });
 
 test.cb('#runConfig does correctly buildout files for different envs', t => {
-  var fn = builder.runConfig(utils.CONFIG_CONTENT_JSON).then(() => {
+  var fn = builder.runConfig(utils.CONFIG_CONTENT_JSON)
+    .then(() => {
+      console.log('test')
     var contentDev = fs.readFileSync(utils.TEST_FILE_1_PATH_BUILT_DEV, 'utf8')
     t.is(contentDev, `
   Hello dev.
@@ -62,6 +64,10 @@ test.cb('#runConfig does correctly buildout files for different envs', t => {
   What do you want to do with hello.
 `);
     t.end()
+  })
+  .catch((err) => {
+    console.log(err)
+    t.fail()
   });
 });
 
