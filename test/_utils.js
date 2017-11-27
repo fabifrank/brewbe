@@ -4,6 +4,7 @@ var ini = require('ini');
 
 
 const DIR_NAME = process.cwd() + '/test_dir';
+exports.DIR_NAME = DIR_NAME;
 
 const TEST_FILE_1_PATH = DIR_NAME + '/.testfile1#buildout';
 exports.TEST_FILE_1_PATH = TEST_FILE_1_PATH;
@@ -33,15 +34,27 @@ attribute1 = hello
 exports.CONFIG_CONTENT_INI = CONFIG_CONTENT_INI;
 exports.CONFIG_CONTENT_JSON = ini.parse(CONFIG_CONTENT_INI, 'utf8');
 
+const GITIGNORE_PATH = DIR_NAME + '/.gitignore';
+exports.GITIGNORE_PATH = GITIGNORE_PATH;
+
+const GITIGNORE_CONTENT = `
+test_dir/test_hello
+hello/world
+`;
+exports.GITIGNORE_CONTENT = GITIGNORE_CONTENT;
+
 function createTestDir() {
   fs.mkdirSync(DIR_NAME);
+}
+
+function createGitignore() {
+  fs.writeFileSync(GITIGNORE_PATH, GITIGNORE_CONTENT, 'utf8')
 }
 
 function clean() {
   rimraf.sync(DIR_NAME);
 }
 exports.clean = clean;
-
 
 function createTestFiles() {
   fs.writeFileSync(TEST_FILE_1_PATH, TEST_FILE_1_CONTENT, 'utf8');
@@ -54,6 +67,7 @@ function createConfig() {
 exports.buildTestDirectories = function() {
   clean();
   createTestDir();
+  createGitignore();
   createConfig();
   createTestFiles();
 }

@@ -121,6 +121,20 @@ function runConfig(config, cleanOnly) {
 }
 exports.runConfig = runConfig;
 
-function clean() {
-
+/**
+ * updateGitignore
+ *
+ * @param filename
+ * @returns {undefined}
+ */
+function updateGitignore(filename, gitignorePath) {
+  return new Promise((resolve, reject) => {
+    var content = fs.readFileSync(gitignorePath, 'utf8');
+    if (content.indexOf(filename) === -1) {
+      content += '\n' + filename;
+      fs.writeFileSync(gitignorePath, content, 'utf8');
+    }
+    resolve();
+  });
 }
+exports.updateGitignore = updateGitignore;
