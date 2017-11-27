@@ -1,10 +1,12 @@
 import test from 'ava';
 
-var fs = require('fs')
-var builder = require('../../src/template-builder')
-var utils = require('../_utils')
+const fs = require('fs');
+const utils = require('../_utils');
+const builder = utils.getTemplateBuilderStub();
 
-test.beforeEach(() => utils.buildTestDirectories())
+test.beforeEach(() => {
+  utils.buildTestDirectories()
+})
 test.afterEach(() => utils.clean())
 
 test.cb('#buildOut builds files correctly', t => {
@@ -99,7 +101,7 @@ test.cb('#runConfig with cleanOnly deletes all existing built files', t => {
 test.cb('#addGitignoreEntry should add file entry correctly', t => {
   var gitignorePath = utils.DIR_NAME + '/.gitignore';
   t.is(fs.readFileSync(gitignorePath, 'utf8'), utils.GITIGNORE_CONTENT);
-  var fn = builder.addGitignoreEntry(utils.TEST_FILE_1_PATH_BUILT_DEV, gitignorePath).then(() => {
+  var fn = builder.addGitignoreEntry(utils.TEST_FILE_1_PATH_BUILT_DEV).then(() => {
     const newContent = utils.GITIGNORE_CONTENT + '\n' + utils.TEST_FILE_1_PATH_BUILT_DEV
     t.is(fs.readFileSync(gitignorePath, 'utf8'), newContent);
 

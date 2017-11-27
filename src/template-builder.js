@@ -1,8 +1,10 @@
 "use strict";
-var glob = require('glob')
-var nosync = require('async')
-var handlebars = require('handlebars')
-var fs = require('fs')
+const glob = require('glob')
+const nosync = require('async')
+const handlebars = require('handlebars')
+const fs = require('fs');
+const sys = require('./system')
+const gitignorePath = sys.getRootDirectory() + '/.gitignore';
 
 function containsEnv(content) {
   if (content.indexOf('{{env}}') == -1) {
@@ -20,7 +22,7 @@ exports.containsEnv = containsEnv;
  * @returns {undefined}
  */
 function getNewFileName(filename, env) {
-  var newFile = filename.replace(/\.(.*)#buildout/, '$1')
+  let newFile = filename.replace(/\.(.*)#buildout/, '$1')
   if (env) {
     newFile += '#' + env
   }
@@ -59,13 +61,13 @@ exports.cleanOut = cleanOut;
  * @returns {undefined}
  */
 function buildOut(config, content, filename, env) {
-  var _config = JSON.parse(JSON.stringify(config))
+  let _config = JSON.parse(JSON.stringify(config))
   return function(callback) {
     _config.env = env
-    var tpl = handlebars.compile(content)
-    var filled = tpl(_config)
+    let tpl = handlebars.compile(content)
+    let filled = tpl(_config)
     //console.log("Compiled Template", filled)
-    var newFile = getNewFileName(filename, env)
+    let newFile = getNewFileName(filename, env)
     console.log('Create: ', newFile)
     fs.writeFile(newFile, filled, 'utf-8', function(err) {
       if (err) throw new Error('Cannot write file: ' + newFile)
@@ -84,7 +86,7 @@ exports.buildOut = buildOut;
  */
 function wrapFile(filename, config, cleanOnly, fileCallback) {
   return function(callback) {
-    var buildFns = []
+    let buildFns = []
     fs.readFile(filename, 'utf-8', function(err, content) {
       if (containsEnv(content)) {
         buildFns = config.environments.map(function(env) {
@@ -112,7 +114,7 @@ exports.wrapFile = wrapFile;
 function runConfig(config, cleanOnly) {
   return new Promise((resolve, reject) => {
     glob(process.cwd()  + '/**/.*#buildout', function(err, files) {
-      var fnWraps = files.map(function(file) {
+      let fnWraps = files.map(function(file) {
         return wrapFile(file, config, cleanOnly)
       })
       nosync.parallelLimit(fnWraps, 5, resolve)
@@ -128,12 +130,9 @@ exports.runConfig = runConfig;
  * @param gitignorePath Only to overwrite default, which is process.cwd() + '/.gitignore'. Otherwise integration tests wont work.
  * @returns {undefined}
  */
-function addGitignoreEntry(filename, gitignorePath) {
-  console.log('gitignorepath #1', gitignorePath)
-  if (!gitignorePath) gitignorePath = process.cwd() + '/.gitignore';
-  console.log("gitignorePath", gitignorePath)
+function addGitignoreEntry(filename) {
   return new Promise((resolve, reject) => {
-    var content = fs.readFileSync(gitignorePath, 'utf8');
+    let content = fs.readFileSync(gitignorePath, 'utf8');
     if (content.indexOf(filename) === -1) {
       content += '\n' + filename;
       fs.writeFileSync(gitignorePath, content, 'utf8');

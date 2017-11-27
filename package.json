@@ -13,6 +13,7 @@
   "license": "ISC",
   "devDependencies": {
     "ava": "^0.23.0",
+    "proxyquire": "^1.8.0",
     "rimraf": "^2.6.2"
   },
   "dependencies": {

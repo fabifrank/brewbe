@@ -1,6 +1,22 @@
-var fs = require('fs');
-var rimraf = require('rimraf');
-var ini = require('ini');
+const fs = require('fs');
+const rimraf = require('rimraf');
+const ini = require('ini');
+const proxyquire = require('proxyquire');
+
+/**
+ * Proxy the root directory
+ */
+exports.getTemplateBuilderStub = () => {
+  return proxyquire('../src/template-builder', {
+    './system': {
+      'getRootDirectory': () => {
+        console.log("stub called")
+        return process.cwd() + '/test_dir';
+      }
+    }
+  });
+}
+
 
 
 const DIR_NAME = process.cwd() + '/test_dir';

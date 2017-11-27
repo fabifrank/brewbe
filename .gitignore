@@ -1,6 +1,2 @@
 node_modules
 test_dir
-
-/Users/skober/Documents/dev/brewbe/test_dir/testfile1#production
-/Users/skober/Documents/dev/brewbe/test_dir/testfile1#dev
-/Users/skober/Documents/dev/brewbe/test_dir/testfile1#staging
