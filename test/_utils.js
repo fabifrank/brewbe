@@ -3,7 +3,7 @@ var rimraf = require('rimraf');
 var ini = require('ini');
 
 
-const DIR_NAME = 'test_dir';
+const DIR_NAME = process.cwd() + '/test_dir';
 
 const TEST_FILE_1_PATH = DIR_NAME + '/.testfile1#buildout';
 exports.TEST_FILE_1_PATH = TEST_FILE_1_PATH;
@@ -52,6 +52,7 @@ function createConfig() {
 }
 
 exports.buildTestDirectories = function() {
+  console.log('###', __dirname, process.cwd())
   clean();
   createTestDir();
   createConfig();
