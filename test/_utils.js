@@ -10,7 +10,6 @@ exports.getTemplateBuilderStub = () => {
   return proxyquire('../src/template-builder', {
     './system': {
       'getRootDirectory': () => {
-        console.log("stub called")
         return process.cwd() + '/test_dir';
       }
     }

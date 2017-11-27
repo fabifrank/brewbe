@@ -44,11 +44,6 @@ test.cb('#cli brewbe buildout updates .gitignore in project root', t => {
   var gitignorePath = utils.DIR_NAME + '/.gitignore';
   t.is(fs.readFileSync(gitignorePath, 'utf8'), utils.GITIGNORE_CONTENT);
 
-  try {
-    fs.statSync(utils.TEST_FILE_1_PATH_BUILT_DEV)
-    t.fail(); // fail test if file exists
-  } catch(e) {}
-
   child.exec('cd test_dir && brewbe buildout && cd ..', (err, stdout, stderr) => {
     let content = fs.readFileSync(gitignorePath, 'utf8');
     if (content.indexOf(utils.TEST_FILE_1_PATH_BUILT_STAGING) === -1) {
