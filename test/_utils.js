@@ -52,7 +52,6 @@ function createConfig() {
 }
 
 exports.buildTestDirectories = function() {
-  console.log('###', __dirname, process.cwd())
   clean();
   createTestDir();
   createConfig();

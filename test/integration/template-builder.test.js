@@ -52,7 +52,6 @@ test.cb('#wrapFile does correctly call the fileCallback on each file', t => {
 test.cb('#runConfig does correctly buildout files for different envs', t => {
   var fn = builder.runConfig(utils.CONFIG_CONTENT_JSON)
     .then(() => {
-      console.log('test')
     var contentDev = fs.readFileSync(utils.TEST_FILE_1_PATH_BUILT_DEV, 'utf8')
     t.is(contentDev, `
   Hello dev.
