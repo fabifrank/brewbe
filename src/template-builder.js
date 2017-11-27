@@ -39,6 +39,7 @@ exports.getNewFileName = getNewFileName;
 function cleanOut(filename, env) {
   return function(callback) {
     let file = getNewFileName(filename, env);
+    console.log('Clean: ', file)
     try {
       fs.statSync(file);
       fs.unlinkSync(file);

@@ -6,7 +6,7 @@ var builder = require('../../src/template-builder')
 var utils = require('../_utils')
 
 test.beforeEach(() => utils.buildTestDirectories())
-test.after(() => utils.clean())
+//test.after(() => utils.clean())
 
 test.cb('#cli brewbe buildout works correctly', t => {
   try {
@@ -15,13 +15,11 @@ test.cb('#cli brewbe buildout works correctly', t => {
   } catch(e) {}
 
   child.exec('cd test_dir && brewbe buildout && pwd && ls -R ', (err, stdout, stderr) => {
-    console.log(utils.TEST_FILE_1_PATH_BUILT_DEV)
     try {
       fs.statSync(utils.TEST_FILE_1_PATH_BUILT_DEV);
       t.pass();
     } catch(e) {
       console.log(e)
-      console.log(err, stderr, stdout, utils.TEST_FILE_1_PATH_BUILT_DEV);
       t.fail()
     }
     t.end()
