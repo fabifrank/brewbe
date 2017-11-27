@@ -9,8 +9,8 @@ var templateBuilder = require('./src/template-builder.js')
 program
 .arguments('<action>')
 .action((action) => {
-  if (action === 'buildout') templateBuilder.runConfig(config, false)
-  if (action === 'clean') templateBuilder.runConfig(config, true)
+  if (action === 'buildout') templateBuilder.runConfig(config, false, program.updateGitignore);
+  if (action === 'clean') templateBuilder.runConfig(config, true, program.updateGitignore);
 })
 .parse(process.argv);
 

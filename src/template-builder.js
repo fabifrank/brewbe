@@ -69,7 +69,7 @@ function buildOut(config, content, filename, env) {
     console.log('Create: ', newFile)
     fs.writeFile(newFile, filled, 'utf-8', function(err) {
       if (err) throw new Error('Cannot write file: ' + newFile)
-      callback()
+      addGitignoreEntry(newFile).then(callback);
     })
   }
 }
@@ -125,9 +125,13 @@ exports.runConfig = runConfig;
  * updateGitignore
  *
  * @param filename
+ * @param gitignorePath Only to overwrite default, which is process.cwd() + '/.gitignore'. Otherwise integration tests wont work.
  * @returns {undefined}
  */
-function updateGitignore(filename, gitignorePath) {
+function addGitignoreEntry(filename, gitignorePath) {
+  console.log('gitignorepath #1', gitignorePath)
+  if (!gitignorePath) gitignorePath = process.cwd() + '/.gitignore';
+  console.log("gitignorePath", gitignorePath)
   return new Promise((resolve, reject) => {
     var content = fs.readFileSync(gitignorePath, 'utf8');
     if (content.indexOf(filename) === -1) {
@@ -137,4 +141,4 @@ function updateGitignore(filename, gitignorePath) {
     resolve();
   });
 }
-exports.updateGitignore = updateGitignore;
+exports.addGitignoreEntry = addGitignoreEntry;

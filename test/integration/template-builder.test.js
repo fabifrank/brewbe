@@ -96,14 +96,14 @@ test.cb('#runConfig with cleanOnly deletes all existing built files', t => {
   });
 });
 
-test.cb('#updateGitignore should add file entry correctly', t => {
+test.cb('#addGitignoreEntry should add file entry correctly', t => {
   var gitignorePath = utils.DIR_NAME + '/.gitignore';
   t.is(fs.readFileSync(gitignorePath, 'utf8'), utils.GITIGNORE_CONTENT);
-  var fn = builder.updateGitignore(utils.TEST_FILE_1_PATH_BUILT_DEV, gitignorePath).then(() => {
+  var fn = builder.addGitignoreEntry(utils.TEST_FILE_1_PATH_BUILT_DEV, gitignorePath).then(() => {
     const newContent = utils.GITIGNORE_CONTENT + '\n' + utils.TEST_FILE_1_PATH_BUILT_DEV
     t.is(fs.readFileSync(gitignorePath, 'utf8'), newContent);
 
-    var fn = builder.updateGitignore(utils.TEST_FILE_1_PATH_BUILT_DEV, gitignorePath).then(() => {
+    var fn = builder.addGitignoreEntry(utils.TEST_FILE_1_PATH_BUILT_DEV, gitignorePath).then(() => {
       // check that entry is not added twice
       t.is(fs.readFileSync(utils.GITIGNORE_PATH, 'utf8'), newContent);
       t.end();
