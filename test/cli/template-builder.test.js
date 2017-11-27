@@ -26,7 +26,7 @@ test.cb('#cli brewbe buildout works correctly', t => {
   });
 });
 
-/*test.cb('#cli brewbe clean works correctly', t => {
+test.cb('#cli brewbe clean works correctly', t => {
   fs.writeFileSync(utils.TEST_FILE_1_PATH_BUILT_STAGING, 'testhello', 'utf8');
 
   child.exec('cd test_dir && brewbe clean && cd ..', (err, stdout, stderr) => {
@@ -39,5 +39,3 @@ test.cb('#cli brewbe buildout works correctly', t => {
     t.end();
   });
 });
-
-*/
