@@ -1,5 +1,5 @@
 "use strict";
-const glob = require('glob')
+const globby = require('globby')
 const nosync = require('async')
 const handlebars = require('handlebars')
 const fs = require('fs');
@@ -68,11 +68,13 @@ function buildOut(config, content, filename, env) {
     let filled = tpl(_config)
     //console.log("Compiled Template", filled)
     let newFile = getNewFileName(filename, env)
-    console.log('Create: ', newFile)
-    fs.writeFile(newFile, filled, 'utf-8', function(err) {
-      if (err) throw new Error('Cannot write file: ' + newFile)
-      addGitignoreEntry(newFile).then(callback);
-    })
+    sys.ensureFolderExists(newFile).then(() => {
+      console.log('Create: ', newFile)
+      fs.writeFile(newFile, filled, 'utf-8', function(err) {
+        if (err) throw new Error('Cannot write file: ' + newFile)
+        addGitignoreEntry(newFile).then(callback);
+      });
+    });
   }
 }
 exports.buildOut = buildOut;
@@ -113,7 +115,7 @@ exports.wrapFile = wrapFile;
  */
 function runConfig(config, cleanOnly) {
   return new Promise((resolve, reject) => {
-    glob(process.cwd()  + '/**/.*#buildout', function(err, files) {
+    globby([process.cwd()  + '/**/.*#buildout', process.cwd() + '/**/.*#buildout/**/*'], { nodir: true }).then((files) => {
       let fnWraps = files.map(function(file) {
         return wrapFile(file, config, cleanOnly)
       })

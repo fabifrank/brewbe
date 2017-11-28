@@ -72,6 +72,22 @@ test.cb('#runConfig does correctly buildout files for different envs', t => {
   });
 });
 
+test.cb('#runConfig does correctly buildout folders', t => {
+  var fn = builder.runConfig(utils.CONFIG_CONTENT_JSON)
+    .then(() => {
+    var contentDev = fs.readFileSync(utils.TEST_FOLDER_FILE_1_PATH_BUILT_DEV, 'utf8')
+    t.is(contentDev, `
+  Hello dev.
+  What do you want to do with hello.
+`);
+    t.end()
+  })
+  .catch((err) => {
+    console.log(err)
+    t.fail()
+  });
+});
+
 test.cb('#cleanOut removes the file', t => {
   fs.writeFileSync(utils.TEST_FILE_1_PATH_BUILT_STAGING, 'testhello', 'utf8');
   builder.cleanOut(utils.TEST_FILE_1_PATH, 'staging')(() => {

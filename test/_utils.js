@@ -32,6 +32,18 @@ exports.TEST_FILE_1_PATH_BUILT_STAGING = TEST_FILE_1_PATH_BUILT_STAGING;
 const TEST_FILE_1_PATH_BUILT_PRODUCTION = DIR_NAME + '/testfile1#production';
 exports.TEST_FILE_1_PATH_BUILT_PRODUCTION = TEST_FILE_1_PATH_BUILT_PRODUCTION;
 
+const TEST_FOLDER_PATH = DIR_NAME + '/.folder#buildout';
+exports.TEST_FOLDER_PATH = TEST_FOLDER_PATH;
+
+const TEST_FOLDER_BUILDOUT_PATH = DIR_NAME + '/folder';
+exports.TEST_FOLDER_BUILDOUT_PATH = TEST_FOLDER_BUILDOUT_PATH;
+
+const TEST_FOLDER_FILE_1_PATH = TEST_FOLDER_PATH + '/testfile2';
+exports.TEST_FOLDER_FILE_1_PATH = TEST_FOLDER_FILE_1_PATH;
+
+const TEST_FOLDER_FILE_1_PATH_BUILT_DEV = TEST_FOLDER_BUILDOUT_PATH + '/testfile2#dev';
+exports.TEST_FOLDER_FILE_1_PATH_BUILT_DEV = TEST_FOLDER_FILE_1_PATH_BUILT_DEV;
+
 const TEST_FILE_1_CONTENT = `
   Hello {{env}}.
   What do you want to do with {{collection1.attribute1}}.
@@ -62,6 +74,15 @@ function createTestDir() {
   fs.mkdirSync(DIR_NAME);
 }
 
+function createBuildoutTestfolder() {
+  fs.mkdirSync(TEST_FOLDER_PATH);
+  fs.mkdirSync(TEST_FOLDER_BUILDOUT_PATH);
+}
+
+function createBuildoutTestFolderFile() {
+  fs.writeFileSync(TEST_FOLDER_FILE_1_PATH, TEST_FILE_1_CONTENT, 'utf8')
+}
+
 function createGitignore() {
   fs.writeFileSync(GITIGNORE_PATH, GITIGNORE_CONTENT, 'utf8')
 }
@@ -82,6 +103,8 @@ function createConfig() {
 exports.buildTestDirectories = function() {
   clean();
   createTestDir();
+  createBuildoutTestfolder();
+  createBuildoutTestFolderFile();
   createGitignore();
   createConfig();
   createTestFiles();
