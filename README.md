@@ -10,7 +10,7 @@ There are tons of tools out there (like zc.buildout and its filetemplate recipe)
 
 ## Features
 
-* Buildout relevant files for development
+* Buildout relevant files and whole folders for development
 * Store configuration settings (like versions, ports) centrally
 * Keep configuration overhead low
 * Automatically export different files for different environments
