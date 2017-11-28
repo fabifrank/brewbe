@@ -1,16 +1,22 @@
 {
   "name": "brewbe",
-  "version": "0.0.1",
-  "description": "",
+  "version": "0.0.2",
+  "description": "Ease management of project settings (ports, versions etc..) and build files for different environments automatically.",
   "main": "index.js",
   "scripts": {
     "test": "ava --serial"
   },
+  "keywords": [
+    "buildout",
+    "project",
+    "management",
+    "productivity"
+  ],
   "bin": {
     "brewbe": "index.js"
   },
   "author": "Fabian Frank",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "ava": "^0.23.0",
     "proxyquire": "^1.8.0",
@@ -28,5 +34,9 @@
     "source": [
       "src/**/*.js"
     ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fabifrank/brewbe"
   }
 }
