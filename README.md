@@ -26,7 +26,37 @@ There are tons of tools out there (like zc.buildout and its filetemplate recipe)
 
 ## Usage
 
-    TBD
+### Basics
+
+First, create a `buildout.cfg` in your project root with some properties in ini style like this:
+
+    hello = world
+
+### Buildout Single File
+
+Create a hidden file with syntax `.<name>#buildout`, for example `.poetry#buildout` with content like this:
+
+    Hello {{hello}}
+
+Then run:
+
+    brewbe buildout
+
+And `brewbe` will create a file in the same directory like `.poetry#buildout` called `poetry` with the content:
+
+    Hello world
+
+### Buildout whole folder
+
+Brewbe can buildout folders as well. Therefore create a folder called `.poetry#buildout` and within that folder a file called `lyrics` with content like this:
+
+    Hello {{world}}
+
+After running `brewbe buildout` there will be a folder called `poetry` with a file called `lyrics` and its content:
+
+    Hello world
+
+
 
 ## Contribute
 
