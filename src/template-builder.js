@@ -98,7 +98,7 @@ function wrapFile(filename, config, cleanOnly, fileCallback) {
         })
       } else {
         if (fileCallback) fileCallback(filename)
-        if (cleanOnly) buildFns.push(cleanOut(filename, env));
+        if (cleanOnly) buildFns.push(cleanOut(filename));
         else buildFns.push(buildOut(config, content, filename, null))
       }
       nosync.parallel(buildFns, callback)

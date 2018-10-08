@@ -97,7 +97,7 @@ function createTestFiles() {
 }
 
 function createConfig() {
-  fs.writeFile(CONFIG_PATH, CONFIG_CONTENT_INI, 'utf8');
+  fs.writeFileSync(CONFIG_PATH, CONFIG_CONTENT_INI, 'utf8');
 }
 
 exports.buildTestDirectories = function() {
