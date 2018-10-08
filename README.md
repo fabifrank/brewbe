@@ -38,7 +38,7 @@ Create a hidden file with syntax `.<name>#buildout`, for example `.poetry#buildo
 
     Hello {{hello}}
 
-Then run:
+Then run with working directory in project root:
 
     brewbe buildout
 
@@ -56,7 +56,13 @@ After running `brewbe buildout` there will be a folder called `poetry` with a fi
 
     Hello world
 
+## Tests
 
+To run the tests:
+
+```
+npm run test
+```
 
 ## Contribute
 
