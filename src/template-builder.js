@@ -133,6 +133,7 @@ exports.runConfig = runConfig;
  * @returns {undefined}
  */
 function addGitignoreEntry(filename) {
+  filename = filename.replace(sys.getRootDirectory() + '/', '')
   return new Promise((resolve, reject) => {
     let content = fs.readFileSync(gitignorePath, 'utf8');
     if (content.indexOf(filename) === -1) {

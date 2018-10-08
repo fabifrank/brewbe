@@ -44,8 +44,8 @@ test.cb('#wrapFile does correctly call the fileCallback on each file', t => {
     files.push([filename, env]);
   })(() => {
     t.deepEqual(files, [
-      [process.cwd() + '/test_dir/.testfile1#buildout', 'dev'],
-      [process.cwd() + '/test_dir/.testfile1#buildout', 'staging']
+      ['test_dir/.testfile1#buildout', 'dev'],
+      ['test_dir/.testfile1#buildout', 'staging']
     ]);
     t.end();
   });

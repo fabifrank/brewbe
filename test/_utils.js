@@ -18,7 +18,7 @@ exports.getTemplateBuilderStub = () => {
 
 
 
-const DIR_NAME = process.cwd() + '/test_dir';
+const DIR_NAME = 'test_dir';
 exports.DIR_NAME = DIR_NAME;
 
 const TEST_FILE_1_PATH = DIR_NAME + '/.testfile1#buildout';
