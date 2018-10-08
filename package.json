@@ -1,6 +1,6 @@
 {
   "name": "brewbe",
-  "version": "0.0.4",
+  "version": "0.1.0",
   "description": "Ease management of project settings (ports, versions etc..) and build files for different environments automatically.",
   "main": "index.js",
   "scripts": {
